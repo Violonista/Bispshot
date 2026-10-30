@@ -69,6 +69,7 @@ mkdir -p "$config/old-dotfile" "$config/dunst"
 
 cp -r "./config/bspwm" "$config"
 chmod +x "$config/bspwm/bspwmrc"
+chmod +x "$config"/bspwm/scripts/*
 ```
 
 e para remover:
