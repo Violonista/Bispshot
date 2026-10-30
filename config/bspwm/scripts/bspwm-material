@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+
+# variaveis
+config_path="${BSPWM_CACHE}/material/config.toml"
+
+help_text='
+#=============================================================================#
+    BSPWM-MATERIAL
+
+    Script de material you integrado com o BSPWM
+
+    Obs: em argumentos que requerem tema, ou imagem, caso definida as variáveis
+    BSPWM, eles se tornam opicionais
+
+    Uso:
+        -t | --theme <TEMA>   : aplica a paleta de cor do tema ao desktop 
+        -l | --list           : lista todos os temas disponiveis
+        -i | --image <IMAGEM> : aplica a paleta de cor da imagem o tema ao desktop 
+        -h | --help           : mostra a tela de help
+
+#=============================================================================#
+'
+
+# funcoes auxiliares
+err() {
+    printf '\e[31m%s\e[0m\n' "$@" >&2
+    exit 1
+}
+
+# atualizando o o arquivo de cores
+updating_toml() {
+    input="${BSPWM_RES}/material"
+    output="${BSPWM_CACHE}/material"
+
+    mkdir -p "$input" "$output"
+
+eval "cat <<EOF 
+$(cat "${input}/config.toml")
+EOF"  > "${output}/config.toml"
+}
+
+# funcoes principais
+applying_theme() {
+    local args=( json )
+    local theme="${1:-$BSPWM_THEME}"
+    local theme_path="${BSPWM_RES}/material/themes/${theme}.json"
+    local mode="$2"
+
+    [[ -z "$theme"      ]] && err "Não existe BSPWM_THEME, nem argumentos suficientes"
+    [[ -f "$theme_path" ]] || err "O tema $theme escolhido não existe"
+    [[ -n "$mode"       ]] && args=( "${args[@]}" "-m" "$mode" )
+
+    args=( "${args[@]}" "$theme_path" "-c" "$config_path" )
+
+    if ! matugen "${args[@]}"; then
+        err "Houve um erro na execução final do material you"
+    fi 
+
+    return 0
+}
+
+listing_themes() {
+    local i=1
+
+    printf "Temas disponiveis:\n"
+
+    for file in "${BSPWM_RES}"/material/themes/*.json; do
+        file="${file##*/}"
+        file="${file%.*}"
+        printf '%i - %s\n' $i "$file"
+        ((i++))
+    done || err "Erro ao exibir os temas"
+
+    return 0
+}
+
+applying_image() {
+    local args=( image )
+    local image="${1:-$BSPWM_WALLPAPER}"
+    local mode="$2"
+
+    [[ -z "$image" ]] && err "Não existe BSPWM_WALLPAPER, nem argumentos suficientes" "$help_text"
+    [[ -n "$mode"  ]] && args=( "${args[@]}" "-m" "$mode" )
+
+    args=( "${args[@]}" "$image" "-c" "$config_path" )
+    
+    if ! magick identify "$image" >/dev/null 2>&1; then
+        err "Arquivo, ou não é uma imagem, ou não existe"
+    fi
+    
+    if ! matugen "${args[@]}"; then
+        err "Houve um erro na execução final do material you"
+    fi 
+
+    return 0
+}
+
+# main
+mkdir -p "${BSPWM_CACHE}/material"
+
+updating_toml || err "Erro ao atualizar o config.toml"
+
+case "$1" in
+    -t | --theme)
+        applying_theme "$2" "$3"
+    ;;
+
+    -l | --list)
+        listing_themes
+    ;;
+
+    -i | --image)
+        applying_image "$2" "$3"
+    ;;
+
+    -h | --help)
+        printf '%s\n' "$help_text"
+    ;;
+
+    "")
+        err "Argumento em falta" "$help_text"
+    ;;
+
+    *)
+        err "Argumento invalido" "$help_text"
+    ;;
+esac

@@ -1,0 +1,223 @@
+#!/usr/bin/env bash
+
+# define o desktop como bspwm
+export XDG_CURRENT_DESKTOP="bspwm"
+
+# umas variaveis importantes para scripts
+export BSPWM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/bspwm"
+export BSPWM_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/bspwm"
+export BSPWM_USER="${BSPWM_DIR}/user"
+export BSPWM_RES="${BSPWM_DIR}/resources"
+export BSPWM_SCRIPTS="${BSPWM_DIR}/scripts"
+export BSPWM_CURRENT="${BSPWM_DIR}/current"
+
+# definições padrão
+BSPWM_DEFAULT_LAYOUT="glayout"
+BSPWM_DEFAULT_WALLPAPER="default.jpg"
+BSPWM_DEFAULT_THEME="everforest"
+
+structure=(
+    "$BSPWM_CACHE"
+    "$BSPWM_USER"
+    "${BSPWM_CURRENT}/colors"
+    "${BSPWM_RES}/wallpapers"
+    "${BSPWM_RES}/layout"
+    "$BSPWM_SCRIPTS"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/dunst"
+)
+
+# abreviações
+config()  { bspc config  "$@"; }
+monitor() { bspc monitor "$@"; }
+rule()    { bspc rule -a "$@"; }
+
+# mensagens para notificar o usuario
+message() {
+    local args=("--app-name" "BSPWM Alert")
+    local urgency="$1"
+
+    args=("${args[@]}" "-u" "$urgency")
+
+    case "$urgency" in
+        "critical")
+            args=( "${args[@]}" "--icon=${BSPWM_RES}/assets/error.png" )
+        ;;
+        "normal")
+            args=( "${args[@]}" "--icon=${BSPWM_RES}/assets/warn.png" )
+        ;;
+    esac
+
+    shift 1
+
+    dunstify "${args[@]}" "$*"
+}
+
+# função de inicialização
+run() {
+    # se não esta em execução
+    if ! pgrep -x "$1" >/dev/null; then
+        # se existe no path
+        if command -v "$1" >/dev/null; then
+            "$@" &
+        else
+            message normal "Não foi possível iniciar $1"
+        fi
+    fi
+}
+
+# verifica variaveis do usuario, as substituindo caso erradas, ou indisponiveis
+verifying_variables() {
+    . "${BSPWM_USER}/var.sh" || \
+    message critical "Houve um erro ao iniciar/executar o arquivo de variáveis do usuario"
+    
+    # adiciona ao path o direstorio de scripts
+    case ":$PATH:" in
+        *":${BSPWM_SCRIPTS}:"*) ;;
+        *) export PATH="${PATH}:${BSPWM_SCRIPTS}" ;;
+    esac
+
+    # modifica a variavel de layout se vazio, ou se nao exista o diretorio
+    if [[ -z "$BSPWM_LAYOUT" || ! -d "${BSPWM_RES}/layout/${BSPWM_LAYOUT}" ]]; then
+        BSPWM_LAYOUT="$BSPWM_DEFAULT_LAYOUT"
+        message normal "O layout escolhido não existe"
+    fi
+
+    # modifica a variavel de tema se vazia, ou se nao exista o arquivo do tema
+    if [[ -z "$BSPWM_THEME" || ! -f "${BSPWM_RES}/material/themes/${BSPWM_THEME}.json" ]]; then
+        BSPWM_THEME="$BSPWM_DEFAULT_THEME"
+        message normal "O tema escolhido não existe"
+    fi
+ 
+    # modifica a variavel de wallpaper se vazia, ou nao seja um nome ou path
+    if [[ -n "$BSPWM_WALLPAPER" && -f "${BSPWM_RES}/wallpapers/${BSPWM_WALLPAPER}" ]]; then
+        BSPWM_WALLPAPER="${BSPWM_RES}/wallpapers/${BSPWM_WALLPAPER}"
+    elif [[ -z "$BSPWM_WALLPAPER" || ! -f "${BSPWM_WALLPAPER}" ]]; then
+        BSPWM_WALLPAPER="${BSPWM_RES}/wallpapers/$BSPWM_DEFAULT_WALLPAPER"
+        message normal "O wallpaper escolhido não existe"
+    fi
+
+    # caso umas variaveis nao foram definidas
+    [[ -z "$WORKSPACES"       ]] && WORKSPACES=(1 2 3 4 5 6)
+    [[ -z "$KEYBOARD_LANG"    ]] && KEYBOARD_LANG="br"
+    [[ -z "$KEYBOARD_MODEL"   ]] && KEYBOARD_MODEL="abnt2"
+    [[ -n "$COMPOSITOR"       ]] && \
+    [[ -z "$COMPOSITOR_ARGS"  ]] && COMPOSITOR_ARGS=("-o" "0.9" "-D" "5" "-c" "-C" "-f" "-F")
+    [[ -z "$WALLPAPER_CONFIG" ]] && WALLPAPER_CONFIG="fill"
+}
+
+default_startup() {
+    # executa os arquivos que restam em /user
+    for file in config rules; do
+        local file_path="${BSPWM_USER}/${file}.sh"
+        
+        . "$file_path" || \
+            message critical "Houve um erro ao iniciar ${file}.sh em ${BSPWM_USER}"
+    done
+
+    # gera links simbolicos para poupar tempo
+    ln -sfn "$BSPWM_WALLPAPER" "${BSPWM_CURRENT}/wallpaper"
+    ln -sfn "${BSPWM_RES}/layout/${BSPWM_LAYOUT}" "${BSPWM_CURRENT}/layout"
+    ln -sfn "${BSPWM_CURRENT}/dunst" "${XDG_CONFIG_HOME:-$HOME/.config}/dunst/dunstrc"
+
+    monitor -d "${WORKSPACES[@]}"
+
+    # inicia o conpositor se definido, instalado e inoperante
+    if [[ -n "$COMPOSITOR" ]]; then
+        if ! pgrep -x "$COMPOSITOR" >/dev/null 2>&1; then
+            (
+                command -v "$COMPOSITOR" >/dev/null 2>&1 && \
+                "$COMPOSITOR" "${COMPOSITOR_ARGS[@]}"  || \
+                message critical "Erro ao inciar o compositor"
+            ) &
+        fi
+    fi
+    
+    (
+        xsetroot -cursor_name left_ptr || \
+        message critical "Não foi possível habilitar o mouse"
+    ) &
+
+    (
+        setxkbmap -layout "${KEYBOARD_LANG}" -model "${KEYBOARD_MODEL}" || \
+        message critical "Houve um erro ao definir as configurações de teclado"
+    ) &
+
+    # inicia, ou atualiza, o hotkey daemon
+    if ! pgrep -x sxhkd >/dev/null 2>&1; then
+        (
+            sxhkd -c "${BSPWM_USER}/hotkeys" || \
+            message critical "Erro ao iniciar o daemon de hotkeys"
+        ) & 
+    else
+        pkill -USR1 -x sxhkd
+    fi
+
+    # inicia o daemon de wallpaper
+    (
+        feh "${WALLPAPER_ARGS[@]}" --bg-"${WALLPAPER_CONFIG}" "${BSPWM_CURRENT}/wallpaper" || \
+        message normal "Erro ao definir o wallpaper"
+    ) &
+
+    # inicia a barra de tarefas
+    (
+        polybar-start || \
+        message normal "Erro ao iniciar a barra de tarefas"
+    ) &
+
+    local MATERIAL_FLAG="$XDG_RUNTIME_DIR/bspwm_material_initialized"
+
+    # inicia o material you se:
+    case "$MATERIAL_START" in
+        startup)
+            # startup: apenas se for o inicio de sessao
+            if [[ ! -f "$MATERIAL_FLAG" ]]; then
+                (
+                    bspwm-material --theme "$BSPWM_THEME" || \
+                    message critical "Erro ao iniciar o material you"
+                ) &
+
+                touch "$MATERIAL_FLAG"
+            fi
+        ;;
+
+        restart)
+            # restart: se, e sempre, quando o bspwmrc for iniciado 
+            (
+                bspwm-material --theme "$BSPWM_THEME" || \
+                message critical "Erro ao iniciar o material you"
+            ) &
+        ;;
+
+        "")
+            message critical \
+            "MATERIAL_START esta vazio." \
+            "Adicione startup (inicio apenas no inicio de sessão) ou restart (sempre quando atualizado o bspwm)"
+        ;;
+
+        *)
+            message critical \
+            "MATERIAL_START esta incorreto." \
+            "Adicione startup (inicio apenas no inicio de sessão) ou restart (sempre quando atualizado o bspwm)"
+        ;;
+    esac
+
+   . "${BSPWM_CURRENT}/colors/bspwm" || \
+    message normal "Erro ao iniciar o arquivo do tema do bspwm"
+    
+    # inicia os programas de startup.sh
+    . "${BSPWM_USER}/startup.sh" || \
+    message critical "Houve um erro ao iniciar startup.sh em ${BSPWM_USER}"
+}
+
+main() {
+    run dunst
+
+    # refaz a estrutura, caso incompleta
+    mkdir -p "${structure[@]}" || message critical "Não foi possível criar os diretórios essenciais"
+
+    verifying_variables
+    
+    default_startup
+}
+
+main

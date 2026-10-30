@@ -1,0 +1,105 @@
+[global]
+    ### Posicionamento e Exibição ###
+    # Exibe notificações na tela onde o ponteiro do mouse está
+    follow = mouse
+    # Monitor específico (usado caso follow = none)
+    monitor = 0
+    # Canto da tela onde as notificações aparecem
+    origin = top-right
+    # Ancoragem / Alinhamento relativo ao canto da tela
+    offset = 20x60
+    # Largura mínima e máxima da notificação: (mínimo, máximo)
+    width = (200, 400)
+    # Espaçamento (gap) entre notificações empilhadas
+    gap_size = 10
+    # Define qual "camada" as notificações vão aparecer
+    layer = top
+    # Quantidade máxima de notificações visíveis ao mesmo tempo
+    notification_limit = 6
+    # Indica se há notificações ocultas caso exceda o limite
+    indicate_hidden = true
+
+    ### Aparência e Estilo das Janelas ###
+    # Fonte e tamanho do texto
+    font = FiraCode Nerd Font 10
+    # Arredondamento dos cantos do balão de notificação (0 = sem arredondamento)
+    corner_radius = 0
+    # Espessura da borda da notificação
+    frame_width = 2
+    # Transparência (0 = totalmente opaco, 100 = totalmente transparente)
+    transparency = 0
+    # Nome da classe/título da janela (útil para regras de WM)
+    title = Dunst
+
+    ### Separador de Notificações ###
+    # Altura da linha divisória entre notificações
+    separator_height = 2
+    # Cor do separador (usa a mesma cor da borda/frame)
+    separator_color = frame
+
+    ### Barra de Progresso (ex: Volume, Brilho) ###
+    enable_posix_regex = true
+    progress_bar = true
+    progress_bar_horizontal_alignment = center
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 1000
+    progress_bar_corner_radius = 0
+    progress_bar_corners = all
+
+    ### Texto e Formatação ###
+    # Formato da notificação: %a (aplicativo), %s (resumo/título), %b (corpo)
+    format = "<b>%a</b>: %s\n%b"
+    # Alinhamento vertical do conteúdo dentro do balão
+    vertical_alignment = center
+    # Altura da linha do texto (0 = automático)
+    line_height = 0
+    # Espaçamento entre o ícone e o texto
+    text_icon_padding = 10
+    # Espaçamento interno horizontal nas laterais
+    horizontal_padding = 10
+
+    ### Comportamento e Histórico ###
+    # Ordena as notificações por urgência
+    sort = true
+    # Empilha notificações idênticas para evitar poluição
+    stack_duplicates = true
+    # Exibe o número de notificações duplicadas empilhadas
+    hide_duplicate_count = false
+    # Busca ícones recursivamente nos diretórios do tema de ícones do sistema
+    enable_recursive_icon_lookup = true
+    # Mantém o histórico ao reabrir notificações fechadas
+    sticky_history = true
+
+    ### Interação com o Mouse ###
+    # Clique esquerdo: fecha a notificação atual
+    mouse_left_click = close_current
+    # Clique do meio: executa a ação padrão (se houver) e fecha
+    mouse_middle_click = do_action, remove_current
+    # Clique direito: fecha todas as notificações ativas
+    mouse_right_click = close_all
+
+
+### Níveis de Urgência ###
+
+# Urgência Baixa (ex: download concluído, música mudou)
+[urgency_low]
+    frame_color = "{{colors.secondary.default.hex}}"
+    foreground = "{{colors.secondary.default.hex}}"
+    background = "{{colors.surface.default.hex}}"
+    timeout = 4  # Desaparece em 4 segundos
+
+# Urgência Normal (notificações padrão de apps)
+[urgency_normal]
+    frame_color = "{{colors.primary.default.hex}}"
+    foreground = "{{colors.primary.default.hex}}"
+    background = "{{colors.surface.default.hex}}"
+    timeout = 6  # Desaparece em 6 segundos
+
+# Urgência Crítica (ex: bateria fraca, erros do sistema)
+[urgency_critical]
+    frame_color = "{{colors.error.default.hex}}"
+    foreground = "{{colors.error.default.hex}}"
+    background = "{{colors.surface.default.hex}}"
+    timeout = 8  # Desaparece em 8 segundos (ou coloque 0 para não fechar sozinho)

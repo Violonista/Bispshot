@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+args=( -c "${BSPWM_CURRENT}/layout/bar/config.ini" main )
+
+if ! pgrep polybar >/dev/null 2>&1; then 
+    ( 
+        polybar "${args[@]}" &
+    ) >/dev/null 2>&1
+else
+    (
+        pkill polybar
+        sleep 1
+        polybar "${args[@]}" &
+    ) >/dev/null 2>&1
+fi

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+i=1
+
+printf "layouts disponiveis:\n"
+
+for layout in "${BSPWM_RES}"/layout/*; do
+    printf '%i - %s\n' $i "$(basename $layout)"
+    ((i++))
+done || printf '%s\n' "Erro ao exibir os layouts"

@@ -1,0 +1,20 @@
+[config]
+
+[templates.bar]
+input_path  = "${BSPWM_RES}/material/templates/bar"
+output_path = "${BSPWM_CURRENT}/colors/bar"
+post_hook   = "polybar-start"
+
+[templates.menu]
+input_path  = "${BSPWM_RES}/material/templates/menu"
+output_path = "${BSPWM_CURRENT}/colors/menu"
+
+[templates.dunst]
+input_path  = "${BSPWM_RES}/material/templates/dunst"
+output_path = "${BSPWM_CURRENT}/dunst"
+post_hook = "dunstctl reload || { pkill -x dunst || pkill -x .dunst-wrapped; sleep 0.5; dunst & }"
+
+[templates.bspwm]
+input_path  = "${BSPWM_RES}/material/templates/bspwm"
+output_path = "${BSPWM_CURRENT}/colors/bspwm"
+post_hook   = "bash ${BSPWM_CURRENT}/colors/bspwm"

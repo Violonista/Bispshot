@@ -1,0 +1,143 @@
+#!/usr/bin/env bash
+
+# variaveis
+CACHE="${BSPWM_CACHE}/menu"
+CONFIG="${BSPWM_CURRENT}/layout/menu"
+launcher_rasi="${CONFIG}/launcher.rasi"
+powermenu_rasi="${CONFIG}/powermenu.rasi"
+windows_rasi="${CONFIG}/windows.rasi"
+help_text='
+#=========================================================#
+    BSPWM-MENU
+
+    Script de menus integrado com o BSPWM
+
+    Uso:
+        -l  --launcher
+        -p  --powermenu
+        -w  --windows
+        -h  --help
+
+#=========================================================#
+'
+
+err() {
+    printf '\e[31m%s\e[0m\n' "$@" >&2
+    exit 1
+}
+
+start_launcher() {
+    [[ ! -f "$launcher_rasi" ]] && err "Não foi encontrado o layout: $launcher_rasi" 
+    
+    rofi -show drun \
+        -theme-str "@import \"${BSPWM_CURRENT}/colors/menu\"" \
+        -config "$launcher_rasi" || err "Erro ao iniciar o rofi"
+}
+
+start_powermenu() {
+    [[ ! -f "$powermenu_rasi" ]] && err "Não foi encontrado o layout: $powermenu_rasi"
+    
+    local poweroff=" ⏻ "
+    local reboot=" 󰑓 "
+    local logout=" 󰩈 "
+    local suspend=" 󰤄 "
+    local hibernate=" 󰒲 "
+    
+    local SEGUNDOS=5
+    local ID=9911
+
+    options="$hibernate\n$suspend\n$logout\n$reboot\n$poweroff"
+    
+    chosen="$(
+        echo -e "$options" | \
+        rofi \
+            --no-config \
+            -theme-str "@import \"${BSPWM_CURRENT}/colors/menu\"" \
+            -theme "$powermenu_rasi" \
+            -p "powermenu" \
+            -dmenu \
+            -selected-row 0
+    )"
+    
+    case "$chosen" in
+        "$poweroff")  
+            cmd="systemctl poweroff"
+            msg="Desligando"
+        ;;
+
+        "$reboot")
+            cmd="systemctl reboot"
+            msg="Reiniciando"    
+        ;;
+        
+        "$logout")
+            cmd="bspc quit"
+            msg="Saindo"
+        ;;
+
+        "$suspend")
+            cmd="systemctl suspend"
+            msg="Suspendendo"
+        ;;
+        
+        "$hibernate")
+            cmd="systemctl hibernate"
+            msg="Hibernando"
+        ;;
+
+        *) exit 0 ;;
+    esac
+
+    for ((i=SEGUNDOS; i>0; i--)); do
+        pct=$(( (SEGUNDOS - i) * 100 / SEGUNDOS ))
+
+        resp=$(dunstify -r "$ID" -t 1000 \
+            -h "int:value:$pct" \
+            -A "default,Cancelar" \
+            "$msg" " em ${i}s... (clique para cancelar)")
+
+        if [[ -n "$resp" && "$resp" != "1" ]]; then
+            dunstify -r "$ID" -t 2000 "Cancelado" "A ação foi cancelada."
+            exit 0
+        fi
+    done
+
+    dunstify -C "$ID"
+    eval "$cmd"
+
+}
+
+start_windows() {
+    [[ -f "$windows_rasi" ]] || err "Não foi encontrado o layout: $windows_rasi"
+    
+    rofi -show window \
+        -theme-str "@import \"${BSPWM_CURRENT}/colors/menu\"" \
+        -config "$windows_rasi" || err "Erro ao iniciar o rofi"
+}
+
+command -v rofi  >/dev/null 2>&1 || err "Rofi não esta instalado. instale para proseguir"
+command -v dunst >/dev/null 2>&1 || err "Dunst não esta instalado. instale para proseguir"
+
+mkdir -p "$CACHE"
+
+case "$1" in
+    -l | --launcher | "")
+        start_launcher
+    ;;
+
+    -p | --powermenu)
+        start_powermenu
+    ;;
+
+    -w | --windows)
+        start_windows
+    ;;
+
+    -h | --help)
+        printf '%s\n' "$help_text"
+    ;;
+
+    *)
+        err 'Argumento invalido'
+    ;;
+esac
