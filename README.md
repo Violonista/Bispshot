@@ -52,6 +52,55 @@ fontes:
 - Terminus
 - Waffle
 
+# Hotkeys
+
+- super + shift + t = terminal
+- super + shift + b = browser
+- super + shift + n = notes
+- super + shift + c = code
+- super + shift + f = file manager
+
+- super + ctrl + r = recarrega bspwm
+- super + ctrl + alt + r = recarrega hotkeys
+
+- super + q = fechar a janela
+- super + alt + q = forçar o fechamento da janela
+
+- super + ctrl + t = modo tiled
+- super + ctrl + alt + t = modo pseudo tiled
+- super + ctrl + f = modo floating
+- super + ctrl + alt + f = modo fullscreen
+
+- super + ctrl + left = move a janela para o workspace da esquerda
+- super + ctrl + right = move a janela para o workspace da direita
+
+- super + left = troca de foco para a janela da esquerda
+- super + right = troca de foco para a janela da direita
+- super + up = troca de foco para a janela de cima
+- super + down = troca de foco para a janela de baixo
+
+- super + ctrl + alt + left = move a janela para esquerda
+- super + ctrl + alt + right = move a janela para direita
+- super + ctrl + alt + up = move a janela para cima
+- super + ctrl + alt + down = move a janela para baixo
+
+- super + {1..9,0} = move o foco para um workspace de 1 ate 10
+
+- ctrl + alt + left = troca de foco para o workspaxe da esquerda
+- ctrl + alt + right = troca de foco para o workspace da direita
+
+- super + space = launcher
+- super + p = print
+- super + shift + p = powermenu
+- alt + tab = janelas 
+
+- super + ctrl + menos = diminui o tamanho da janela 
+- super + ctrl + igual = aumenta o tamanho da janela
+
+ctrl + f2 e raiserVolume = aumenta o volume
+ctrl + f1 e lowerVolume = diminui o volume
+ctrl + f3 e audioMute = deixa o volume mudo
+
 # Instalação e Remoção
 
 Para instalar o dotfile, use esse comando:
@@ -200,6 +249,7 @@ os temas disponíveis são:
 
 # Ideias para o futuro
 
+- estou **refazendo parte do codigo do bspwmrc**, so para torna-lo mais estavel.
 - estou testando o **conky**, para adicionar **widgets ao dotfile**.
 - eu vou adicionar **gtk e qt ao material you** possivelmente na **proxima atualização**.
 - vou fazer um **layout novo**, o qual vai ser algo agradável aos olhos. acho que um bom nome seria cozy-style.
