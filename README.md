@@ -97,9 +97,9 @@ fontes:
 - super + ctrl + menos = diminui o tamanho da janela 
 - super + ctrl + igual = aumenta o tamanho da janela
 
-ctrl + f2 e raiserVolume = aumenta o volume
-ctrl + f1 e lowerVolume = diminui o volume
-ctrl + f3 e audioMute = deixa o volume mudo
+- ctrl + f2 e raiserVolume = aumenta o volume
+- ctrl + f1 e lowerVolume = diminui o volume
+- ctrl + f3 e audioMute = deixa o volume mudo
 
 # Instalação e Remoção
 
