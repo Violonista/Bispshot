@@ -1,0 +1,72 @@
+super + shift + {t,b,n,c,f}
+	{ $TERMINAL, $BROWSER, $NOTE, $CODE, $FILE }
+
+super + @space
+	bspwm-menu --launcher
+
+alt + Tab
+	bspwm-menu --windows
+
+super + ctrl + r
+	dunstify -u normal \
+		--icon="$BSPWM_RES/assets/refresh.png" \
+		--app-name="BSPWM Alert" \
+		--timeout=5000 \
+		"A Configuração do BSPWM foi Atualizado"; bspc wm -r
+
+super + ctrl + alt + r
+		dunstify \
+		-u normal \
+		--icon="$BSPWM_RES/assets/refresh.png" \
+		--app-name="BSPWM Alert" \
+		--timeout=5000 \
+		"A Configuração do SXHKD foi Atualizado"; pkill -USR1 -x sxhkd
+
+super + p
+    flameshot gui
+
+super + q
+	bspc node -c
+
+super + alt + q
+	bspc node -k
+
+super + shift + p
+	bspwm-menu --powermenu
+
+ctrl + {F1,F2}
+	pactl set-sink-volume @DEFAULT_SINK@ {-5%,+5%}
+
+ctrl + F3
+	pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+super + ctrl + {t,alt + t,f,alt + f}
+	bspc node -t {tiled,pseudo_tiled,~floating,~fullscreen}
+
+super + ctrl + {Left,Right}
+	bspc node -d {prev,next} '--follow'
+
+ctrl + alt + {Left,Right}
+	bspc desktop -f {prev,next}
+
+super + {1-9,0}
+	bspc desktop -f '^{1-9,10}'
+
+super + ctrl + alt + {Left,Down,Up,Right}
+	bspc node -s {west,south,north,east}.local
+
+super + ctrl + {equal,minus}
+	{ \
+	   bspc node -z top_right 20 -20 ; bspc node -z bottom_left -20 20; \
+	,  bspc node -z top_right -20 20 ; bspc node -z bottom_left 20 -20; \
+	}
+
+super + {Left,Down,Up,Right}
+    DIR={west,south,north,east} FALLBACK={prev,_,_,next}; \
+    bspc node -f $DIR.!sticky.!hidden.local || bspc node -f $FALLBACK.leaf.!sticky.!hidden.local
+
+XF86Audio{RaiseVolume,LowerVolume}
+	pactl set-sink-volume @DEFAULT_SINK@ {+5%,-5%}
+
+XF86AudioMute
+	pactl set-sink-mute @DEFAULT_SINK@ toggle
