@@ -22,22 +22,22 @@
 
 # Pacotes
 
-| **WM**            | bspwm     |
-| ----------------- | --------  |
-| **TASKBAR**       | polybar   |
-| **MENU**          | rofi      |
-| **MATERIAL YOU**  | matugen   |
-| **COMPOSITOR**    | xcompmgr  |
-| **NOTIFICATION**  | dunst     |
-| **PRINT**         | flameshot |
-| **POLKIT**        | lxpolkit  |
-| **HOTKEY DAEMON** | sxhkd     |
-| **BG**            | feh       |
-| **TERMINAL**      | st        |
-| **BROWSER**       | firefox   |
-| **FILE MANAGER**  | thunar    |
-| **CODE EDITOR**   | code      |
-| **NOTES**         | obsidian  |
+| **WM**            | bspwm       |
+| ----------------- | ----------- |
+| **TASKBAR**       | polybar     |
+| **MENU**          | rofi        |
+| **MATERIAL YOU**  | matugen     |
+| **COMPOSITOR**    | xcompmgr    |
+| **NOTIFICATION**  | dunst       |
+| **PRINT**         | flameshot   |
+| **POLKIT**        | lxpolkit    |
+| **HOTKEY DAEMON** | sxhkd       |
+| **BG**            | feh         |
+| **TERMINAL**      | st          |
+| **BROWSER**       | firefox dev |
+| **FILE MANAGER**  | thunar      |
+| **CODE EDITOR**   | code        |
+| **NOTES**         | obsidian    |
 
 > os programas de compositor, print, polkit, terminal, browser, file manager, code editor e notes podem ser trocadas atravez dos arquivos em `user/`.
 
