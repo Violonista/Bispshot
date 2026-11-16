@@ -22,14 +22,14 @@ KEYBOARD_MODEL="abnt2"
 # define quando o material you sera executado
 # startup: inicia só no inicio de sessão
 # restart: inicia sempre quando atualizado o bspwm
-MATERIAL_START="startup"
+MATERIAL_START="restart"
 
 # define como sera aplicado o wallpaper
 # op: scale, fill, max, center, tile
 WALLPAPER_CONFIG="fill"
 
 # argumentos para o daemon de wallpaper
-WALLPAPER_ARGS=( )
+WALLPAPER_ARGS=()
 
 # programas padrão
 export TERMINAL="st"

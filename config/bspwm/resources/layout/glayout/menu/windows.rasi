@@ -1,125 +1,131 @@
 configuration {
-    modi:                        "window";
-    show-icons:                  true;
-    window-format:               "{n}";
+    modi:                       "window";
+    show-icons:                 true;
+    display-window:             "";
+    display-drun:               "";
+    window-format:              "{t}";
+    hover-select:               true;
+    me-select-entry:            "";
+    me-accept-entry:            "MousePrimary";
+}
+
+* {
+    background-color:           transparent;
+    text-color:                 @on-surface;
+    font:                       "Fira Code Light 11";
 }
 
 window {
     transparency:               "real";
-    location:                   center;
-    anchor:                     center;
-    fullscreen:                 false;
-    width:                      800px;
-    x-offset:                   0px;
-    y-offset:                   0px;
-
-    enabled:                    true;
-    margin:                     0px;
-    padding:                    10px;
-    border:                     2px solid;
-    border-radius:              0px;
-    border-color:               @primary;
-    background-color:           @surface;
-    cursor:                     "default";
+    location:                   north;
+    anchor:                     north;
+    width:                      80%;
+    x-offset:                   0;
+    y-offset:                   10;
+    border:                     0px solid;
+    background-color:           transparent;
 }
 
 mainbox {
+    spacing:                    10px;
+    children:                   [ "inputbar", "listview" ];
+}
+
+inputbar {
     enabled:                    true;
-    spacing:                    0px;
-    margin:                     0px;
-    padding:                    12px;
-    border:                     0px solid;
-    border-radius:              0px;
-    background-color:           transparent;
-    children:                   [ "listview" ];
+    margin:                     0% 25%;
+    padding:                    8px 19px;
+    spacing:                    4px;
+    background-color:           @surface;
+    border-radius:              6px;
+    children:                   [ "prompt", "entry" ];
+}
+
+prompt {
+    text-color:                 @primary;
+    padding:                    10px 14px;
+    font:                       "Fira Code Light 12";
+}   
+
+entry {
+    placeholder:                "Pesquisar...";
+    placeholder-color:          @outline;
+    background-color:           @surface-container;
+    text-color:                 @on-surface;
+    border:                     1px solid;
+    border-radius:              6px;
+    border-color:               @outline;
+    padding:                    10px 18px;
+    cursor:                     text;
 }
 
 listview {
-    enabled:                    true;
-    columns:                    5;
+    columns:                    4;
     lines:                      1;
     cycle:                      true;
     dynamic:                    true;
     scrollbar:                  false;
     layout:                     vertical;
-    reverse:                    false;
-    fixed-height:               true;
-    fixed-columns:              true;
-
-    spacing:                    15px;
-    margin:                     0px;
-    padding:                    0px;
-    border:                     0px solid;
-    background-color:           transparent;
-    cursor:                     "default";
+    flow:                       horizontal;
+    spacing:                    12px;
+    padding:                    12px 14px;
+    background-color:           @surface;
+    border:                     2px solid;
+    border-color:               @outline;
+    border-radius:              18px;
 }
 
 element {
-    enabled:                     true;
-    spacing:                     0px;
-    padding:                     15px;
-	orientation:				 vertical;
-    border-radius:               0px;
-    cursor:                      pointer;
-    background-color:            @surface-container;
-    text-color:                  @on-surface;
+    orientation:                vertical;
+    padding:                    28px 12px;
+    spacing:                    12px;
+    background-color:           @surface-container;
+    border:                     2px solid;
+    border-color:               @outline;
+    border-radius:              12px;
+    text-color:                 @on-surface;
+    cursor:                     pointer;
+}
+
+element-icon {
+    size:                       54px;
+    horizontal-align:           0.5;
+    vertical-align:             0.5;
+    cursor:                     inherit;
+}
+
+element-text {
+    horizontal-align:           0.5;
+    vertical-align:             0.5;
+    font:                       "Fira Code Light 10";
+    cursor:                     inherit;
 }
 
 element normal.normal,
 element alternate.normal {
-    background-color:            @surface-container-high;
-    text-color:                  @on-surface;
+    background-color:           @surface-container;
+    border-color:               @outline;
+    text-color:                 @outline;
 }
 
-element normal.active {
-    background-color:            @primary-container;
-    text-color:                  @primary;
-}
-
-element normal.urgent {
-    background-color:            @error-container;
-    text-color:                  @error;
-}
-
-element selected.normal {
-    background-color:            @secondary;
-    text-color:                  @on-secondary;
-}
-
-element selected.active {
-    background-color:            @primary;
-    text-color:                  @on-primary;
-}
-
-element selected.urgent {
-    background-color:            @error;
-    text-color:                  @on-error;
-}
-
+element normal.active,
 element alternate.active {
-    background-color:            @primary-container;
-    text-color:                  @primary;
+    background-color:           @surface-container;
+    border-color:               @secondary;
+    text-color:                 @secondary;
 }
 
-element alternate.urgent {
-    background-color:            @error-container;
-    text-color:                  @error;
+element normal.urgent,
+element alternate.urgent     {
+    background-color:           @surface-container;
+    border-color:               @error;
+    text-color:                 @error;
 }
 
-element-icon {
-	size:						 44;
-    cursor:                      inherit;
-    background-color:            transparent;
-    text-color:                  inherit;
-}
-
-element-text {
-	enabled:					 true;
-    vertical-align:              0.5;
-    horizontal-align:            0.5;
-    font:                        "FiraCode Nerd Font 10";
-    padding:                     0px;
-    cursor:                      inherit;
-    background-color:            transparent;
-    text-color:                  inherit;
+element selected.normal,
+element selected.urgent,
+element selected.active {
+    background-color:           @surface;
+    border-color:               @primary;
+    text-color:                 @on-surface;
 }

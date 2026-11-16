@@ -1,15 +1,23 @@
 #!/usr/bin/env bash
 
-args=( -c "${BSPWM_CURRENT}/layout/bar/config.ini" main )
+args=(-c "${BSPWM_RUN}/layout/bar/config.ini")
 
-if ! pgrep polybar >/dev/null 2>&1; then 
-    ( 
-        polybar "${args[@]}" &
-    ) >/dev/null 2>&1
-else
-    (
-        pkill polybar
+startPolybar() {
+    if ! polybar "${args[@]}" >/dev/null 2>&1; then
+        notify-send \
+            -u normal \
+            --icon="$BSPWM_RES/assets/error.png" \
+            "Erro ao iniciar o polybar"
+        exit 1
+    fi
+}
+
+if command -v polybar >/dev/null 2>&1; then
+    if pgrep polybar >/dev/null 2>&1; then
+        polybar-msg cmd quit
         sleep 1
-        polybar "${args[@]}" &
-    ) >/dev/null 2>&1
+        startPolybar &
+    else
+        startPolybar &
+    fi
 fi

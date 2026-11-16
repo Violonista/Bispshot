@@ -1,100 +1,76 @@
 configuration {
     show-icons:                 false;
+    hover-select:               true;
+}
+
+* {
+    background-color:           transparent;
+    text-color:                 @on-surface;
+    font:                       "Fira Code Light 11";
 }
 
 window {
     transparency:               "real";
-    location:                   center;
-    anchor:                     center;
-    fullscreen:                 false;
-    width:                      500px;
-    x-offset:                   0px;
-    y-offset:                   0px;
-
-    enabled:                    true;
-    margin:                     0px;
-    padding:                    20px;
-    border:                     2px solid;
-    border-radius:              0px;
-    border-color:               @primary;
-    background-color:           @surface;
-    cursor:                     "default";
+    location:                   north;
+    anchor:                     north;
+    width:                      80%;
+    x-offset:                   0;
+    y-offset:                   10;
+    background-color:           transparent;
 }
 
 mainbox {
-    enabled:                    true;
-    spacing:                    20px;
-    margin:                     0px;
-    padding:                    0px;
-    border:                     0px solid;
-    border-radius:              0px;
-    background-color:           transparent;
-    children:                   [ "inputbar", "listview" ];
-}
-
-inputbar {
-    enabled:                     true;
-    spacing:                     15px;
-    margin:                      0px;
-    padding:                     0px;
-    border:                      0px;
-    border-radius:               0px;
-    background-color:            transparent;
-    text-color:                  @on-surface;
-    children:                    [ "prompt"];
-}
-
-prompt {
-    enabled:                     true;
-    padding:                     12px;
-    border-radius:               0px;
-    background-color:            @primary;
-    text-color:                  @surface;
+    spacing:                    10px;
+    children:                   [ "listview" ];
 }
 
 listview {
-    enabled:                    true;
     columns:                    5;
     lines:                      1;
-    cycle:                      true;
-    dynamic:                    true;
+    cycle:                      false;
+    dynamic:                    false;
     scrollbar:                  false;
+    margin:                     0% 20%;
     layout:                     vertical;
-    reverse:                    false;
-    fixed-height:               true;
-    fixed-columns:              true;
-
-    spacing:                    15px;
-    margin:                     6px 0px;
-    padding:                    0px;
-    border:                     0px solid;
-    background-color:           transparent;
-    cursor:                     "default";
+    flow:                       horizontal;
+    spacing:                    20px;
+    padding:                    10px;
+    background-color:           @surface;
+    border:                     2px solid;
+    border-color:               @outline;
+    border-radius:              18px;
 }
 
 element {
-    enabled:                    true;
-    border:                     4px 4px 1px 1px solid;
-    border-radius:              0px;
-    background-color:           @surface;
+    orientation:                vertical;
+    padding:                    3.5% 0%;
+    spacing:                    25px;
+    background-color:           @surface-container;
+    border:                     2px solid;
+    border-color:               @outline;
+    border-radius:              12px;
     text-color:                 @on-surface;
-    border-color:               @primary;
-    padding:                    25px 10px;
     cursor:                     pointer;
+    children:                   [ "element-text" ];
 }
 
 element-text {
-    background-color:           transparent;
-    text-color:                 inherit;
-    cursor:                     inherit;
-    vertical-align:             0.5;
     horizontal-align:           0.5;
+    vertical-align:             0.5;
+    font:                       "Fira Code Light 14";
+    cursor:                     inherit;
 }
 
-element selected {
-    border:                     4px 4px 1px 1px solid;
-    border-radius:              0px;
-    background-color:           @primary;
-    text-color:                 @surface;
-    border-color:               transparent;
+element normal.normal,
+element alternate.normal {
+    background-color:           @surface-container;
+    border-color:               @outline;
+    text-color:                 @outline;
+}
+
+element selected.normal,
+element selected.active {
+    background-color:           @surface;
+    border-color:               @primary;
+    text-color:                 @on-surface;
 }

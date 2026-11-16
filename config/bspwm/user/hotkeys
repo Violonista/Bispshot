@@ -20,7 +20,7 @@ super + ctrl + alt + r
 		--icon="$BSPWM_RES/assets/refresh.png" \
 		--app-name="BSPWM Alert" \
 		--timeout=5000 \
-		"A Configuração do SXHKD foi Atualizado"; pkill -USR1 -x sxhkd
+		"A Configuração do SXHKD foi Atualizado"; kill -USR1 "$(pgrep -x sxhkd)"
 
 super + p
     flameshot gui
@@ -30,6 +30,9 @@ super + q
 
 super + alt + q
 	bspc node -k
+
+super + ctrl + alt + q
+	bspc quit
 
 super + shift + p
 	bspwm-menu --powermenu

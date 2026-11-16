@@ -1,6 +1,22 @@
 # Bispshot
 
-> Versão 1.0 | Lançamento
+> Versão 1.1
+
+# Updates
+
+Fiz algumas **mudanças no GLayout** para deixa-lo mais bonito, tipo o windows que ficou melhor do que tava antes :/
+
+<img src="preview/updates/preview-1.png" width="400">
+
+<img src="preview/updates/preview-2.png" width="400">
+
+<img src="preview/updates/preview-3.png" width="400">
+
+<img src="preview/updates/preview-4.png" width="400">
+
+Como dito, refiz algumas partes do bspwmrc. **no meu pc**, o script dinimuiu em 15% o tempo de execução (Sem contar componentes, ja que são rodados paralelamente).
+
+eu atrasei um pouco o novo layout, mas **daqui a umas atualizações já o adiciono** ok :3
 
 # Galeria
 
@@ -17,8 +33,6 @@
 <img src="preview/preview-6.png" width="700">
 
 <img src="preview/preview-7.png" width="700">
-
-<img src="preview/preview-8.png" width="700">
 
 # Pacotes
 
@@ -44,13 +58,13 @@
 dependência para scripts:
 
 - imagemagick
-- pulseaudio-ctl
 
 fontes:
 
 - FiraCode Nerd Font
-- Terminus
-- Waffle
+- Fira Code Light
+- Font Awesome 7
+- Symbols Nerd Font
 
 # Instalação e Remoção
 
@@ -62,7 +76,7 @@ cd "./Bispshot"
 
 config="${XDG_CONFIG_HOME:-$HOME/.config}"
 
-mkdir -p "$config/old-dotfile" "$config/dunst"
+mkdir -p "$config/old-dotfile"
 
 [ -d "$config/bspwm" ] && mv "$config/bspwm" "$config/old-dotfile/"
 [ -d "$config/dunst" ] && mv "$config/dunst" "$config/old-dotfile/"
@@ -100,7 +114,7 @@ Em `/user`, é onde você definira comportamentos, configurações e programas a
     ( outra abreviação; rule para bspc rule -a )
   - `startup.sh`:
     Onde você definira os programas que iniciarão com o bspwm
-    ( use run "comando", para notificar erros e não duplicar processos )
+    ( use run para notificar erros e não duplicar processos )
   - `var.sh`:
     Onde você definira variaveis tanto para o sistema, como para o bspwmrc
 
@@ -148,7 +162,7 @@ COMPOSITOR="xcompmgr"
 COMPOSITOR_ARGS=("-o" "0.9" "-D" "5" "-c" "-C" "-f" "-F")
 ```
 
-- **KEYBOARD_LANG***: define o layout do teclado
+- **KEYBOARD_LANG\***: define o layout do teclado
 
 ```bash
 KEYBOARD_LANG="br"
@@ -201,52 +215,61 @@ os temas disponíveis são:
 
 # Hotkeys
 
-- super + shift + t = terminal
-- super + shift + b = browser
-- super + shift + n = notes
-- super + shift + c = code
-- super + shift + f = file manager
+| keybind           | abre         |
+| ----------------- | ------------ |
+| super + shift + t | terminal     |
+| super + shift + b | browser      |
+| super + shift + n | notes        |
+| super + shift + c | code         |
+| super + shift + f | file manager |
 
-- super + ctrl + r = recarrega bspwm
-- super + ctrl + alt + r = recarrega hotkeys
+| keybind                | recarrega |
+| ---------------------- | --------- |
+| super + ctrl + r       | bspwm     |
+| super + ctrl + alt + r | hotkeys   |
 
-- super + q = fechar a janela
-- super + alt + q = forçar o fechamento da janela
+| keybind                | troca para        |
+| ---------------------- | ----------------- |
+| super + ctrl + t       | modo tiled        |
+| super + ctrl + alt + t | modo pseudo tiled |
+| super + ctrl + f       | modo floating     |
+| super + ctrl + alt + f | modo fullscreen   |
 
-- super + ctrl + t = modo tiled
-- super + ctrl + alt + t = modo pseudo tiled
-- super + ctrl + f = modo floating
-- super + ctrl + alt + f = modo fullscreen
+| keybind                | fecha                 |
+| ---------------------- | --------------------- |
+| super + q              | a janela              |
+| super + alt + q        | a janela forçadamente |
+| super + ctrl + alt + q | o bspwm               |
 
-- super + ctrl + left = move a janela para o workspace da esquerda
-- super + ctrl + right = move a janela para o workspace da direita
+| keybind                    | move a janela para      |
+| -------------------------- | ----------------------- |
+| super + ctrl + left        | o workspace da esquerda |
+| super + ctrl + right       | o workspace da direita  |
+| super + ctrl + alt + left  | esquerda                |
+| super + ctrl + alt + right | direita                 |
+| super + ctrl + alt + up    | cima                    |
+| super + ctrl + alt + down  | baixo                   |
 
-- super + left = troca de foco para a janela da esquerda
-- super + right = troca de foco para a janela da direita
-- super + up = troca de foco para a janela de cima
-- super + down = troca de foco para a janela de baixo
+| keybind            | troca de foco para          |
+| ------------------ | --------------------------- |
+| super + left       | a janela da esquerda        |
+| super + right      | a janela da direita         |
+| super + up         | a janela de cima            |
+| super + down       | a janela de baixo           |
+| super + {1..9,0}   | um workspace de numero 1-10 |
+| ctrl + alt + left  | o workspace da esquerda     |
+| ctrl + alt + right | o workspace da direita      |
 
-- super + ctrl + alt + left = move a janela para esquerda
-- super + ctrl + alt + right = move a janela para direita
-- super + ctrl + alt + up = move a janela para cima
-- super + ctrl + alt + down = move a janela para baixo
+| keybind              | diminui / aumenta           |
+| -------------------- | --------------------------- |
+| super + ctrl + menos | diminui o tamanho da janela |
+| super + ctrl + igual | aumenta o tamanho da janela |
 
-- super + {1..9,0} = move o foco para um workspace de 1 ate 10
-
-- ctrl + alt + left = troca de foco para o workspaxe da esquerda
-- ctrl + alt + right = troca de foco para o workspace da direita
-
-- super + space = launcher
-- super + p = print
-- super + shift + p = powermenu
-- alt + tab = janelas 
-
-- super + ctrl + menos = diminui o tamanho da janela 
-- super + ctrl + igual = aumenta o tamanho da janela
-
-- ctrl + f2 e raiserVolume = aumenta o volume
-- ctrl + f1 e lowerVolume = diminui o volume
-- ctrl + f3 e audioMute = deixa o volume mudo
+| keybind                  | volume           |
+| ------------------------ | ---------------- |
+| ctrl + f2 e raiserVolume | aumenta o volume |
+| ctrl + f1 e lowerVolume  | diminui o volume |
+| ctrl + f3 e audioMute    | muta o volume    |
 
 # Ideias para o futuro
 
@@ -259,8 +282,9 @@ os temas disponíveis são:
 # Inspirações e plágios
 
 - **[Gh0stzk](https://github.com/gh0stzk)**: [Dotfiles](https://github.com/gh0stzk/dotfiles) (Principal inspiração)
-- **[Adi1090x](https://github.com/adi1090x): [Polybar-themes](https://github.com/adi1090x/polybar-themes) [Rofi](https://github.com/adi1090x/rofi)** (tema docky & launcher)
+- **[Adi1090x](https://github.com/adi1090x): [Polybar-themes](https://github.com/adi1090x/polybar-themes) [Rofi](https://github.com/adi1090x/rofi)** (tema docky)
 - **[owl4ce](https://github.com/owl4ce)**: [Dotfiles](https://github.com/owl4ce/dotfiles)
+- **[end-4](https://github.com/end-4)**: [dots-hyprland](https://github.com/end-4/dots-hyprland)
 
 # Licença
 
@@ -269,7 +293,9 @@ Este projeto é distribuído sob a licença **GPL-3.0**. Veja o arquivo [LICENSE
 Partes deste dotfile são baseadas ou adaptadas de projetos também licenciados sob GPL:
 
 - [gh0stzk/dotfiles](https://github.com/gh0stzk/dotfiles)
-- [adi1090x/polybar-themes](https://github.com/adi1090x/polybar-themes) e [adi1090x/rofi](https://github.com/adi1090x/rofi)
+- [adi1090x/polybar-themes](https://github.com/adi1090x/polybar-themes)
+- [adi1090x/rofi](https://github.com/adi1090x/rofi)
 - [owl4ce/dotfiles](https://github.com/owl4ce/dotfiles)
+- [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland)
 
 Todas as imagens criados neste projeto, foram criadas por **Violonista**, dono do projeto, e licenciados sob GPL-3.0 como o restante do projeto.
