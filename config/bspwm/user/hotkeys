@@ -44,7 +44,7 @@ ctrl + F3
 	pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 super + ctrl + {t,alt + t,f,alt + f}
-	bspc node -t {tiled,pseudo_tiled,~floating,~fullscreen}
+	bspc node -t {tiled,pseudo_tiled,~lfloating,fullscreen}
 
 super + ctrl + {Left,Right}
 	bspc node -d {prev,next} '--follow'
