@@ -161,6 +161,7 @@ function default_startup() {
     # inicia o notifications daemon
     (
         if pgrep dunst >/dev/null 2>&1; then
+            sleep 5
             dunstctl reload
         else
             if ! dunst; then
