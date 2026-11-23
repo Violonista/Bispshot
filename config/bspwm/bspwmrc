@@ -115,7 +115,7 @@ function default_startup() {
 
     local MATERIAL_FLAG
 
-    if [[ -d "$MATERIAL_FLAG" ]]; then
+    if [[ -d "$XDG_RUNTIME_DIR ]]; then
         MATERIAL_FLAG="${XDG_RUNTIME_DIR}/bspwm_material_initialized"
     else
         message critical "XDG_RUNTIME_DIR não existe"
