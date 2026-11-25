@@ -1,22 +1,6 @@
 # Bispshot
 
-> Versão 1.1
-
-# Updates
-
-Fiz algumas **mudanças no GLayout** para deixa-lo mais bonito, tipo o windows que ficou melhor do que tava antes :/
-
-<img src="preview/updates/preview-1.png" width="400">
-
-<img src="preview/updates/preview-2.png" width="400">
-
-<img src="preview/updates/preview-3.png" width="400">
-
-<img src="preview/updates/preview-4.png" width="400">
-
-Como dito, refiz algumas partes do bspwmrc. **no meu pc**, o script dinimuiu em 15% o tempo de execução (Sem contar componentes, ja que são rodados paralelamente).
-
-eu atrasei um pouco o novo layout, mas **daqui a umas atualizações já o adiciono** ok :3
+> Versão 1.1.2
 
 # Galeria
 
