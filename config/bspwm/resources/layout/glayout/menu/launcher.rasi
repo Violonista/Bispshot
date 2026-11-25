@@ -1,7 +1,7 @@
 configuration {
     modi:                       "drun";
     show-icons:                 true;
-    display-drun:               "";
+    display-drun:               "";
     hover-select:               true;
 }
 
@@ -30,27 +30,31 @@ mainbox {
 inputbar {
     enabled:                    true;
     margin:                     0% 25%;
-    padding:                    8px 10px;
-    spacing:                    4px;
+    padding:                    0px;
     background-color:           @surface;
-    border-radius:              6px;
+    border:                     0px 0px 3px 0px solid;
+    border-color:               @secondary;
+    border-radius:              4px;
     children:                   [ "prompt", "entry" ];
 }
 
 prompt {
-    text-color:                 @primary;
-    padding:                    10px 14px;
-    font:                       "Fira Code Light 12";
-}   
+    text-color:                 @secondary;
+    margin:                     0px;
+    padding:                    0px 16px;
+    background-color:           @secondary;
+    text-color:                 @surface;
+    font:                       "Font Awesome 7 Free";
+    horizontal-align:           0.5;
+    vertical-align:             0.5;
+}
 
 entry {
     placeholder:                "Pesquisar...";
     placeholder-color:          @outline;
-    background-color:           @surface-container;
+    background-color:           inherit;
     text-color:                 @on-surface;
-    border:                     1px solid;
-    border-radius:              6px;
-    border-color:               @outline;
+    margin:                     4px;
     padding:                    10px 18px;
     cursor:                     text;
 }
@@ -66,14 +70,15 @@ listview {
     spacing:                    12px;
     padding:                    12px 14px;
     background-color:           @surface;
-    border:                     2px solid;
-    border-color:               @outline;
-    border-radius:              18px;
+    border:                     0px 0px 4px 0px solid;
+    border-color:               @primary;
+    border-radius:              8px;
 }
 
 scrollbar {
     handle-width:               4px;
-    handle-color:               @primary;
+    border-radius:              16px;
+    handle-color:               @secondary;
     background-color:           @surface-container;
     cursor:                     pointer;
 }
@@ -82,11 +87,8 @@ element {
     orientation:                vertical;
     padding:                    12px 20px;
     spacing:                    12px;
-    background-color:           @surface-container;
     border:                     2px solid;
-    border-color:               @outline;
-    border-radius:              12px;
-    text-color:                 @on-surface;
+    border-radius:              6px;
     cursor:                     pointer;
 }
 
@@ -115,5 +117,5 @@ element selected.normal,
 element selected.active {
     background-color:           @surface;
     border-color:               @primary;
-    text-color:                 @on-surface;
+    text-color:                 @primary;
 }

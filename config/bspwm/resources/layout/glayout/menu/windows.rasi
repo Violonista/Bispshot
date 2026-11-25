@@ -1,12 +1,9 @@
 configuration {
     modi:                       "window";
     show-icons:                 true;
-    display-window:             "";
-    display-drun:               "";
+    display-window:             "";
     window-format:              "{t}";
     hover-select:               true;
-    me-select-entry:            "";
-    me-accept-entry:            "MousePrimary";
 }
 
 * {
@@ -34,27 +31,31 @@ mainbox {
 inputbar {
     enabled:                    true;
     margin:                     0% 25%;
-    padding:                    8px 19px;
-    spacing:                    4px;
+    padding:                    0px;
     background-color:           @surface;
-    border-radius:              6px;
+    border:                     0px 0px 3px 0px solid;
+    border-color:               @secondary;
+    border-radius:              4px;
     children:                   [ "prompt", "entry" ];
 }
 
 prompt {
-    text-color:                 @primary;
-    padding:                    10px 14px;
-    font:                       "Fira Code Light 12";
-}   
+    text-color:                 @secondary;
+    margin:                     0px;
+    padding:                    0px 16px;
+    background-color:           @secondary;
+    text-color:                 @surface;
+    font:                       "Font Awesome 7 Free";
+    horizontal-align:           0.5;
+    vertical-align:             0.5;
+}
 
 entry {
     placeholder:                "Pesquisar...";
     placeholder-color:          @outline;
-    background-color:           @surface-container;
+    background-color:           inherit;
     text-color:                 @on-surface;
-    border:                     1px solid;
-    border-radius:              6px;
-    border-color:               @outline;
+    margin:                     4px;
     padding:                    10px 18px;
     cursor:                     text;
 }
@@ -70,19 +71,19 @@ listview {
     spacing:                    12px;
     padding:                    12px 14px;
     background-color:           @surface;
-    border:                     2px solid;
-    border-color:               @outline;
-    border-radius:              18px;
+    border:                     0px 0px 4px 0px solid;
+    border-color:               @primary;
+    border-radius:              8px;
 }
 
 element {
     orientation:                vertical;
-    padding:                    28px 12px;
+    padding:                    28px 30px;
     spacing:                    12px;
     background-color:           @surface-container;
     border:                     2px solid;
     border-color:               @outline;
-    border-radius:              12px;
+    border-radius:              6px;
     text-color:                 @on-surface;
     cursor:                     pointer;
 }

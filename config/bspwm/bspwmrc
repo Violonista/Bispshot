@@ -19,18 +19,23 @@ BSPWM_DEFAULT_THEME="everforest"
 
 # mensagens para notificar o usuario
 function message() {
-    local args=("--app-name" "BSPWM Alert")
     local urgency="$1"
-    args=("${args[@]}" "-u" "$urgency")
 
     case "$urgency" in
-    "critical") args=("${args[@]}" "--icon=${BSPWM_RES}/assets/error.png") ;;
-    "normal") args=("${args[@]}" "--icon=${BSPWM_RES}/assets/warn.png") ;;
+    "critical")
+        icon="${BSPWM_RES}/assets/error.png"
+        ;;
+    "normal")
+        icon="${BSPWM_RES}/assets/warn.png"
+        ;;
     esac
 
     shift 1
 
-    notify-send "${args[@]}" "$*"
+    notify-send \
+        "--app-name" "BispShot Alert" \
+        "-u" "$urgency" "icon" "$icon" \
+        "$*"
 }
 
 # função de inicialização
@@ -115,7 +120,7 @@ function default_startup() {
 
     local MATERIAL_FLAG
 
-    if [[ -d "$XDG_RUNTIME_DIR ]]; then
+    if [[ -d "$XDG_RUNTIME_DIR" ]]; then
         MATERIAL_FLAG="${XDG_RUNTIME_DIR}/bspwm_material_initialized"
     else
         message critical "XDG_RUNTIME_DIR não existe"
