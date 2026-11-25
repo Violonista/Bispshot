@@ -262,6 +262,7 @@ os temas disponíveis são:
 - eu vou adicionar **gtk e qt ao material you** possivelmente na **proxima atualização**.
 - vou fazer um **layout novo**, o qual vai ser algo agradável aos olhos. acho que um bom nome seria cozy-style.
 - na proxima atualização, vou definir uma opção para o `BSPWM_THEME`, ao ser definido como WALL, use o papel de parede no material you.
+- Estou testando fazer uma **configuração a base de YAML**, mas para isso, estou reescrevendo uma boa parte do codigo e possívelmente terei que fazer um novo script para isso.
 
 # Inspirações e plágios
 
